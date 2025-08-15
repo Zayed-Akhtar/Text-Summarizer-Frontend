@@ -1,5 +1,8 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
+import DotGrid from '../../blocks/Backgrounds/DotGrid/DotGrid';
+import { FaTelegramPlane } from "react-icons/fa";
+
 
 export default function ImgGenerator() {
   const promptRef = useRef('');
@@ -30,7 +33,29 @@ export default function ImgGenerator() {
   };
 
   return (
-    <div style={{ maxWidth: 500, margin: 'auto', padding: 20 }}>
+    <div style={{width:'100%', height:'100vh'}}>
+    <div style={{ width: '100%', height: '100%', position: 'relative', backgroundColor:'black', zIndex:'-12' }}>
+  <DotGrid
+    dotSize={5}
+    gap={15}
+    baseColor="#271E37"
+    activeColor="#5227FF"
+    proximity={120}
+    shockRadius={250}
+    shockStrength={5}
+    resistance={750}
+    returnDuration={1.5}
+  />
+  </div>
+    <div className='imageGenerator-form' style={{ maxWidth: 500, margin: 'auto', padding: 20 }}>
+      <div className='image-container'>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {imageUrl && (
+        <div style={{ marginTop: 20 }}>
+          <img src={imageUrl} alt="Generated Visual" style={{ maxWidth: '100%' }} />
+        </div>
+      )}
+      </div>
       <form onSubmit={handleFormSubmit}>
         <input
           ref={promptRef}
@@ -38,18 +63,11 @@ export default function ImgGenerator() {
           placeholder="Describe the image you want"
           style={{ width: '100%', padding: 8, marginBottom: 10 }}
         />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Generating...' : 'Submit'}
+        <button title='Generate response' type="submit" disabled={loading}>
+          {loading ? 'Generating...' : <FaTelegramPlane />}
         </button>
       </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      {imageUrl && (
-        <div style={{ marginTop: 20 }}>
-          <img src={imageUrl} alt="Generated Visual" style={{ maxWidth: '100%' }} />
-        </div>
-      )}
+    </div>
     </div>
   );
 }
