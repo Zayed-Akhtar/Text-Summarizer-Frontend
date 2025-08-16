@@ -1,7 +1,7 @@
 import React from 'react'
 import { RiDownload2Line } from "react-icons/ri";
 
-export default function ImageContent({imageUrl, error}) {
+export default function ImageContent({imageUrl, error=null}) {  
     const downloadHandler = ()=>{
         const link = document.createElement('a');
         link.href = imageUrl;
@@ -12,7 +12,7 @@ export default function ImageContent({imageUrl, error}) {
     }
     
   return (
-          <div className='image-container'>
+          <div className='image-container' style={{height:'100%'}}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {imageUrl ? (
         <div>

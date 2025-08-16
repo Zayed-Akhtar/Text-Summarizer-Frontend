@@ -2,23 +2,27 @@ import React, { useRef } from 'react'
 import { FaTelegramPlane } from "react-icons/fa";
 
 
-export default function ContentPanel({children, formHandler, loading}) {
+export default function ContentPanel({ children, formHandler, loading = false, width=500, height='60%', bottom='80%' }) {
     const promptRef = useRef('');
-    
-  return (
-          <div className='contentPanel-container' style={{ maxWidth: 500, margin: 'auto', padding: 20 }}>
+
+    return (
+        <div className='contentPanel-container' style={{ maxWidth: width, margin: 'auto', padding: 20, height:`${height}`, bottom: `${bottom}` }}>
+            <div style={{display:'flex', flexDirection:'column', height:'100%'}}>
             {children}
-            <form onSubmit={(e)=>formHandler(e, promptRef)}>
-              <input
-                ref={promptRef}
-                type="text"
-                placeholder="Describe the image you want"
-                style={{ width: '100%', padding: 8, marginBottom: 10 }}
-              />
-              <button title='Generate response' type="submit" disabled={loading}>
-                {loading ? 'Generating...' : <FaTelegramPlane />}
-              </button>
-            </form>
-          </div>
-  )
+            </div>
+            {formHandler &&
+                <form onSubmit={(e) => formHandler(e, promptRef)}>
+                    <input
+                        ref={promptRef}
+                        type="text"
+                        placeholder="Describe the image you want"
+                        style={{ width: '100%', padding: 8, marginBottom: 10 }}
+                    />
+                    <button title='Generate response' type="submit" disabled={loading}>
+                        {loading ? 'Generating...' : <FaTelegramPlane />}
+                    </button>
+                </form>            
+                }
+        </div>
+    )
 }
