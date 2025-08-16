@@ -11,6 +11,10 @@
   background-color: #1f1c1c;
   border-radius: 10px;
 }
+.generated-content{
+  max-width: 70%;
+  border-radius: 4%;
+}
 
 .image-container{
   flex: 0 0 90%;
@@ -21,6 +25,16 @@
   top: 80%; */
   display: flex;
   flex: 0 0 10%;
+}
+
+.fallback-text{
+  color: white;
+  position: relative;
+  top: 40%;
+  left: 10%;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #bc9494;
 }
 
 .imageGenerator-form form input{
@@ -34,6 +48,7 @@
   background-color: #453c3c;
   border-radius: 0 5px 5px 0;
   border: 1px solid rgb(96, 93, 93);
+  border-left: none;
   height: 5.7vh;
   color: #bc9494;
   width: fit-content;

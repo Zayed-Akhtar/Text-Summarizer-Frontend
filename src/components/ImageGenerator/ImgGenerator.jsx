@@ -50,11 +50,13 @@ export default function ImgGenerator() {
     <div className='imageGenerator-form' style={{ maxWidth: 500, margin: 'auto', padding: 20 }}>
       <div className='image-container'>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {imageUrl && (
-        <div style={{ marginTop: 20 }}>
-          <img src={imageUrl} alt="Generated Visual" style={{ maxWidth: '100%' }} />
+      {imageUrl ? (
+        <div>
+          <img className='generated-content' src={imageUrl} alt="Generated Visual"/>
         </div>
-      )}
+      ):
+        <span className='fallback-text'>Response will be generated here !!</span>
+      }
       </div>
       <form onSubmit={handleFormSubmit}>
         <input
