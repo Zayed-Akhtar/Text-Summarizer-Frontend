@@ -37,11 +37,26 @@
   color: #bc9494;
 }
 
+.downloader{
+font-weight: 300;
+font-size: 1rem;
+color: #bc9494;
+}
+
+.downloader span {
+  margin-left: 2%;
+}
+.downloader span:hover{
+  cursor: pointer;
+  color: #595050;
+}
+
 .imageGenerator-form form input{
   background-color: transparent;
   border: 1px solid rgb(96, 93, 93);
   border-radius: 20px 0 0 20px;
   color: white;
+  outline: none;
 }
 
 .imageGenerator-form form button{
