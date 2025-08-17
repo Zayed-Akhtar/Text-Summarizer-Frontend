@@ -40,6 +40,8 @@
 font-weight: 300;
 font-size: 1rem;
 color: #bc9494;
+display: flex;
+gap: 40%;
 }
 
 .downloader span {

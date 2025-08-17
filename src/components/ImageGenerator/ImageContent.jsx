@@ -1,7 +1,7 @@
 import React from 'react'
 import { RiDownload2Line } from "react-icons/ri";
 
-export default function ImageContent({imageUrl, error=null}) {  
+export default function ImageContent({imageUrl, createdDate , error=null}) {  
     const downloadHandler = ()=>{
         const link = document.createElement('a');
         link.href = imageUrl;
@@ -17,7 +17,7 @@ export default function ImageContent({imageUrl, error=null}) {
       {imageUrl ? (
         <div>
           <img className='generated-content' src={imageUrl} alt="Generated Visual"/>
-          <div className='downloader'>Click the icon for downlaod <span onClick={downloadHandler}><RiDownload2Line /></span></div>
+          <div className='downloader'>{createdDate} <span title='download' onClick={downloadHandler}><RiDownload2Line /></span></div>
         </div>
       ):
         <span className='fallback-text'>Response will be generated here !!</span>

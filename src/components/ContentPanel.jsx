@@ -4,7 +4,7 @@ import { FaTelegramPlane } from "react-icons/fa";
 
 export default function ContentPanel({ children, formHandler, loading = false, width=500, height='60%', bottom='80%' }) {
     const promptRef = useRef('');
-
+    
     return (
         <div className='contentPanel-container' style={{ maxWidth: width, margin: 'auto', padding: 20, height:`${height}`, bottom: `${bottom}` }}>
             <div style={{display:'flex', flexDirection:'column', height:'100%'}}>
