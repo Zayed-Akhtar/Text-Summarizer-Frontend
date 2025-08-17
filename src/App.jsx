@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import ImgGenerator from './components/ImageGenerator/ImgGenerator';
+import { Outlet } from 'react-router-dom';
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
       <Header/>
       <div className='app-content'>
       <Sidebar/>
-      <ImgGenerator/>
+      <Outlet/>
       </div>
     </>
   )
