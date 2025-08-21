@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { FaTelegramPlane } from "react-icons/fa";
 
 
-export default function ContentPanel({ children, formHandler, loading = false, width=500, height='60%', bottom='80%' }) {
+export default function ContentPanel({ children, formHandler, loading = false, width=500, height='60%', bottom='80%', placeholder='Generate response' }) {
     const promptRef = useRef('');
     
     return (
@@ -15,7 +15,7 @@ export default function ContentPanel({ children, formHandler, loading = false, w
                     <input
                         ref={promptRef}
                         type="text"
-                        placeholder="Describe the image you want"
+                        placeholder={`${placeholder}`}
                         style={{ width: '100%', padding: 8, marginBottom: 10 }}
                     />
                     <button title='Generate response' type="submit" disabled={loading}>
