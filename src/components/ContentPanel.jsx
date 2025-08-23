@@ -7,7 +7,7 @@ export default function ContentPanel({ children, formHandler, loading = false, w
     
     return (
         <div className='contentPanel-container' style={{ maxWidth: width, margin: 'auto', padding: 20, height:`${height}`, bottom: `${bottom}` }}>
-            <div style={{display:'flex', flexDirection:'column', height:'100%'}}>
+            <div style={{display:'flex', flexDirection:'column', maxHeight:'93%'}}>
             {children}
             </div>
             {formHandler &&
@@ -16,7 +16,7 @@ export default function ContentPanel({ children, formHandler, loading = false, w
                         ref={promptRef}
                         type="text"
                         placeholder={`${placeholder}`}
-                        style={{ width: '100%', padding: 8, marginBottom: 10 }}
+                        style={{ width: '100%', padding: 8, marginBottom: 10, height:'85%' }}
                     />
                     <button title='Generate response' type="submit" disabled={loading}>
                         {loading ? 'Generating...' : <FaTelegramPlane />}

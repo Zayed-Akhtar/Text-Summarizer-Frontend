@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function TextContainer() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
-    const [generatedResponse, setgeneratedResponse] = useState('');
+    const [generatedResponseStack, setgeneratedResponseStack] = useState([]);
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
 
 
@@ -19,10 +19,10 @@ export default function TextContainer() {
             return;
         }
         setLoading(true);
-
+        promptRef.current.value = '';
         try {
             const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model });
-            setgeneratedResponse(response.data.items.content);
+            setgeneratedResponseStack([...generatedResponseStack, { 'question': prompt, 'answer': response.data.items.content }]);
         } catch (err) {
             setError(`Failed to generate response. Please try again, ${err}`);
         } finally {
@@ -30,10 +30,19 @@ export default function TextContainer() {
         }
     }
     return (
-        <ContentPanel formHandler={formSubmitHandler} height='68%' width='50%' bottom='85%' placeholder='Type your query here...' loading={loading}>
-            <div className='generated-text' style={{ overflowY: "scroll", height: '100%', margin: '2%' }}>
+        <ContentPanel formHandler={formSubmitHandler} height='100vh' width='50%' bottom='90%' placeholder='Type your query here...' loading={loading}>
+            <div className='generated-text' style={{}}>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
-                {generatedResponse.length ? <p style={{ color: 'white' }}>{generatedResponse}</p> : <span className='fallback-text'>Response will be generated here !!</span>}
+                {generatedResponseStack.length ?
+                    generatedResponseStack.map(ele => <div className='response-section'>
+                        <p style={{ fontWeight: '500', color: 'white' }}>{ele.question}</p>
+                        <p style={{ color: 'white' }}>{ele.answer}</p>
+                    </div>
+                    )
+                    :
+                    (!error && <span className='fallback-text'>Response will be generated here !!</span>)
+                }
+
             </div>
         </ContentPanel>
     )
