@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import ContentPanel from '../ContentPanel'
 import axios from 'axios';
+import NavigatorButton from '../NavigatorButton';
+import RecentQueries from './RecentQueries';
 
 export default function TextContainer() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
     const [generatedResponseStack, setgeneratedResponseStack] = useState([]);
+    const [seeAllQueries, setSeeAllQueries] = useState(false);
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
 
 
@@ -30,6 +33,7 @@ export default function TextContainer() {
         }
     }
     return (
+        !seeAllQueries ?
         <ContentPanel formHandler={formSubmitHandler} height='100vh' width='50%' bottom='90%' placeholder='Type your query here...' loading={loading}>
             <div className='generated-text' style={{}}>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -42,8 +46,10 @@ export default function TextContainer() {
                     :
                     (!error && <span className='fallback-text'>Response will be generated here !!</span>)
                 }
-
             </div>
+            <NavigatorButton clickHandler={()=>setSeeAllQueries(true)}>Recent Queries</NavigatorButton>
         </ContentPanel>
+        :
+        <RecentQueries NavigatorHandler={() => setSeeAllQueries(false)}/>
     )
 }

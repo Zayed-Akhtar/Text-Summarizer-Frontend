@@ -83,6 +83,11 @@ gap: 40%;
 background-color: transparent;
 }
 
+.scrollable-container{
+  height:90%;
+  overflow-y:auto
+}
+
 /* Text generator */
 .generated-text{
 overflow-y: auto;
@@ -98,3 +103,15 @@ justify-content:space-between
   display: flex;
   flex-direction: column;
 }
+
+.elipse-text{
+  white-space: nowrap;
+  overflow: hidden;     
+  text-overflow: ellipsis;    
+  width: 80%; 
+}
+
+.spotlight-card{
+  margin-bottom: 2%;
+}
+

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Sidebar() {
   const sideBarElements = [{name:'Home', link:"/"}, {name:'Dashboard', link:"/dashboard"}, {name:'Text Query', link:"/text-generator"}, {name:'Text to Image', link:"/"}];
-  const [activezElement, setActiveElement] = useState(null);
+  const [activezElement, setActiveElement] = useState(3);
 
 
   return (

@@ -4,7 +4,8 @@ import ImageContent from './ImageContent';
 import ContentPanel from '../ContentPanel';
 import { FaRegImages } from "react-icons/fa";
 import { LuImagePlus } from "react-icons/lu";
-import { formatDate } from '../../helpers/dateFormater';
+import { formatDate, getCurrentDate } from '../../helpers/dateFormater';
+import NavigatorButton from '../NavigatorButton';
 
 export default function ImageContainer() {
   const [imageUrl, setImageUrl] = useState('');
@@ -13,8 +14,6 @@ export default function ImageContainer() {
   const [images, setImages] = useState([]);
   const [seeAllImages, setSeeAllImages] = useState(false);
   const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
-  const now = new Date();
-  const currentFormatedDate = formatDate(now.toString());
   const [recentImagesError, setRecentImagesError] = useState('');
 
   useEffect(() => {
@@ -51,19 +50,19 @@ export default function ImageContainer() {
   return (
         !seeAllImages ?
             <ContentPanel formHandler={handleFormSubmit} loading={loading} height='65%' placeholder='Describe the image you want..'>
-              <ImageContent imageUrl={imageUrl} error={error} createdDate={currentFormatedDate}/>
-               <button className='navigator-button btn btn-outline-primary' onClick={()=>setSeeAllImages(true)}><FaRegImages style={{marginRight:'4px', fontSize:'1rem'}} />Recently Genrated</button>
+              <ImageContent imageUrl={imageUrl} error={error} createdDate={getCurrentDate()}/>
+              <NavigatorButton clickHandler={()=>setSeeAllImages(true)}><FaRegImages style={{marginRight:'4px', fontSize:'1rem'}} />Recently Genrated</NavigatorButton>
             </ContentPanel>
             :
             <ContentPanel width={600} height={'80%'} bottom={'90%'}>
-                <div className='all-images' style={{height:'90%', overflowY:'scroll'}}>
+                <div className='scrollable-container'>
                   {recentImagesError &&  <p style={{ color: 'red' }}>{recentImagesError}</p>}
                     {images.length ?
                         images.map((image_data, i) => <ImageContent key={i} imageUrl={image_data[0]} createdDate={formatDate(image_data[1])}></ImageContent>)
                         : <h2 style={{color:'grey'}}>Loading...</h2>
                     }
                 </div>
-               <button className='navigator-button btn btn-outline-primary' onClick={()=>setSeeAllImages(false)}><LuImagePlus style={{marginRight:'4px', fontSize:'1rem'}} />Generate image</button>
+               <NavigatorButton clickHandler={()=>setSeeAllImages(false)}><LuImagePlus style={{marginRight:'4px', fontSize:'1rem'}} />Generate image</NavigatorButton>
             </ContentPanel>
   )
 }

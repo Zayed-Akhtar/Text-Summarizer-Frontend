@@ -9,3 +9,8 @@ export const formatDate = (dateStr)=> {
     const year = date.getFullYear();
     return `${day}${daySuffix(day)}-${month}, ${year}`;
 }
+
+export const getCurrentDate = ()=>{
+      const now = new Date();
+      return formatDate(now.toString());
+}
