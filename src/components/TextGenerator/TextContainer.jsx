@@ -1,20 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ContentPanel from '../ContentPanel'
 import axios from 'axios';
-import NavigatorButton from '../NavigatorButton';
 import RecentQueries from './RecentQueries';
+import Queries from './Queries';
 
 export default function TextContainer() {
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false);
     const [generatedResponseStack, setgeneratedResponseStack] = useState([]);
-    const [seeAllQueries, setSeeAllQueries] = useState(false);
+    const [queryStack, setQueryStack] = useState([]);
+    const [seeRecentQueries, setSeeRecentQueries] = useState(false);
+    const [stackId, setStackId] = useState('');
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
 
 
-    const formSubmitHandler = async (e, promptRef, model = 'sonar') => {
-        console.log('reached form handler!');
+    useEffect(()=>{
+        axios.get(`${serverEndpoint}/text-generator/get-recentqueries-stack`)
+        .then((res)=>{
+            if(res.data.success){
+            console.log('this is query stack', res.data.items);
+            setQueryStack(res.data.items);
+           }
+            else{
+                console.log(res.data.message) 
+            }
+        })
+        .catch(err=>console.log('error occured while fetching stack'))
+    }, []);
 
+    const continueQueryHandler = (stack)=>{
+        setgeneratedResponseStack(stack.queries);
+        setSeeRecentQueries(false);
+        setStackId(stack._id);
+    }
+    const navigatorHandler = (e)=>{
+        e.preventDefault();
+        setSeeRecentQueries(false);
+        setgeneratedResponseStack([]);
+        setStackId('');
+    }
+    const formSubmitHandler = async (e, promptRef, model = 'sonar') => {
         e.preventDefault();
         const prompt = promptRef.current.value.trim();
         if (!prompt) {
@@ -24,7 +49,7 @@ export default function TextContainer() {
         setLoading(true);
         promptRef.current.value = '';
         try {
-            const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model });
+            const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model, messages: generatedResponseStack});
             setgeneratedResponseStack([...generatedResponseStack, { 'question': prompt, 'answer': response.data.items.content }]);
         } catch (err) {
             setError(`Failed to generate response. Please try again, ${err}`);
@@ -33,23 +58,11 @@ export default function TextContainer() {
         }
     }
     return (
-        !seeAllQueries ?
+        !seeRecentQueries ?
         <ContentPanel formHandler={formSubmitHandler} height='100vh' width='50%' bottom='90%' placeholder='Type your query here...' loading={loading}>
-            <div className='generated-text' style={{}}>
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                {generatedResponseStack.length ?
-                    generatedResponseStack.map(ele => <div className='response-section'>
-                        <p style={{ fontWeight: '500', color: 'white' }}>{ele.question}</p>
-                        <p style={{ color: 'white' }}>{ele.answer}</p>
-                    </div>
-                    )
-                    :
-                    (!error && <span className='fallback-text'>Response will be generated here !!</span>)
-                }
-            </div>
-            <NavigatorButton clickHandler={()=>setSeeAllQueries(true)}>Recent Queries</NavigatorButton>
+            <Queries error={error} generatedResponseStack={generatedResponseStack} navigatorHandler={()=>setSeeRecentQueries(true)} initialStackId={stackId}/>
         </ContentPanel>
         :
-        <RecentQueries NavigatorHandler={() => setSeeAllQueries(false)}/>
+        <RecentQueries queryStack={queryStack} navigatorHandler={navigatorHandler} continueQueryHandler={continueQueryHandler}/>
     )
 }

@@ -3,9 +3,9 @@ import axios from 'axios';
 import ImageContent from './ImageContent';
 import ContentPanel from '../ContentPanel';
 import { FaRegImages } from "react-icons/fa";
-import { LuImagePlus } from "react-icons/lu";
-import { formatDate, getCurrentDate } from '../../helpers/dateFormater';
-import NavigatorButton from '../NavigatorButton';
+import { getCurrentDate } from '../../helpers/dateFormater';
+import NavigatorButton from '../Buttons/NavigatorButton';
+import RecentImages from './RecentImages';
 
 export default function ImageContainer() {
   const [imageUrl, setImageUrl] = useState('');
@@ -15,8 +15,11 @@ export default function ImageContainer() {
   const [seeAllImages, setSeeAllImages] = useState(false);
   const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
   const [recentImagesError, setRecentImagesError] = useState('');
+  
 
   useEffect(() => {
+    console.log('fetch images useeffect is called');
+    
     axios.get(`${serverEndpoint}/image-generator/get-images`)
       .then(res => setImages(res.data.items)
       )
@@ -36,9 +39,7 @@ export default function ImageContainer() {
     promptRef.current.value='';
 
     try {
-      const response = await axios.post(`${serverEndpoint}/image-generator/gen-image`, { prompt });
-      console.log('here is the response from gen image', response);
-      
+      const response = await axios.post(`${serverEndpoint}/image-generator/gen-image`, { prompt });      
       setImageUrl(response.data.image_url);
       setImages([...images, [response.data.image_url, now.toString()]])
     } catch (err) {
@@ -54,15 +55,6 @@ export default function ImageContainer() {
               <NavigatorButton clickHandler={()=>setSeeAllImages(true)}><FaRegImages style={{marginRight:'4px', fontSize:'1rem'}} />Recently Genrated</NavigatorButton>
             </ContentPanel>
             :
-            <ContentPanel width={600} height={'80%'} bottom={'90%'}>
-                <div className='scrollable-container'>
-                  {recentImagesError &&  <p style={{ color: 'red' }}>{recentImagesError}</p>}
-                    {images.length ?
-                        images.map((image_data, i) => <ImageContent key={i} imageUrl={image_data[0]} createdDate={formatDate(image_data[1])}></ImageContent>)
-                        : <h2 style={{color:'grey'}}>Loading...</h2>
-                    }
-                </div>
-               <NavigatorButton clickHandler={()=>setSeeAllImages(false)}><LuImagePlus style={{marginRight:'4px', fontSize:'1rem'}} />Generate image</NavigatorButton>
-            </ContentPanel>
+          <RecentImages images={images} navigatorHandler={()=>setSeeAllImages(false)} error={recentImagesError}/>
   )
 }

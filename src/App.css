@@ -111,6 +111,15 @@ justify-content:space-between
   width: 80%; 
 }
 
+.save-queries{
+  height: fit-content;
+  margin-top: 4%;
+}
+
+.hide{
+  display: none;
+}
+
 .spotlight-card{
   margin-bottom: 2%;
 }
