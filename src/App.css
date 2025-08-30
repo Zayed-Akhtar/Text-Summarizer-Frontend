@@ -124,3 +124,17 @@ justify-content:space-between
   margin-bottom: 2%;
 }
 
+.toast-message{
+    width: 50%;
+    height: 7%;
+    position: absolute;
+    top:0%;
+    left: 25%;
+    text-align: center;
+    padding: 2px;
+    opacity: 0.6;
+}
+
+.toast-message.hide{
+  opacity: 0;
+}

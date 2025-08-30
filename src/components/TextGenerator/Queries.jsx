@@ -1,21 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavigatorButton from '../Buttons/NavigatorButton'
 import ShinyButton from '../Buttons/ShinyButton'
 import axios from 'axios'
+import Toast from '../Toasts/toast';
 
-export default function Queries({error, generatedResponseStack, navigatorHandler, initialStackId}) {
+export default function Queries({error, generatedResponseStack, navigatorHandler, initialStackId, querySaved, saveQuerySetter, queryStackSetter}) {
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
     const [errorMessage, setErrormessage] = useState('');
-    const [saved, setSaved] = useState(true);
     //updates stack id when new queries set is saved to db and db return a stack id
     const [stackId, setStackId] = useState(initialStackId);
+    const [showToast, setShowToast] = useState(false)
     
+    useEffect(()=>{
+        setStackId(initialStackId)
+    }, [initialStackId]);
+
+    const handleshowToast = ()=>{
+        setShowToast(true);
+        setTimeout(() => {
+            setShowToast(false)
+        }, 3000);
+    }
+
     const handleSaveQueries = ()=>{
         axios.post(`${serverEndpoint}/text-generator/save-quries`, {queries:generatedResponseStack, stackId})
         .then((res)=>{
             if(res.data.success){
-                setSaved(true);
+                saveQuerySetter(true);
                 setStackId(res.data.items._id);
+                queryStackSetter((prevStack)=>{
+                    if(!initialStackId.length){
+                        return [...prevStack, res.data.items]
+                    }else{                        
+                       return prevStack.map((stack)=>stack._id === res.data.items._id ? res.data.items : stack);
+                    }
+                });
+                handleshowToast();
             }else{
                 console.log(res.data.message);
             }
@@ -35,11 +55,12 @@ export default function Queries({error, generatedResponseStack, navigatorHandler
                     :
                     (!error && <span className='fallback-text'>Response will be generated here !!</span>)
                 }
-            </div>
-            <div style={{display: 'flex', justifyContent:'space-between'}}>
+        </div>
+        <div style={{display: 'flex', justifyContent:'space-between'}}>
             <NavigatorButton clickHandler={navigatorHandler}>Recent Queries</NavigatorButton>
-            <ShinyButton className={`save-queries ${saved ? '' : 'hide'}`} text='Save' clickHandler={()=>handleSaveQueries()}/>
-            </div>
+            <ShinyButton className={`save-queries ${querySaved? 'hide' : ''}`} text='Save' clickHandler={handleSaveQueries}/>
+        </div>
+        <Toast message='saved successfully !!' show={showToast}/>
     </>
 
   )

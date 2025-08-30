@@ -11,8 +11,8 @@ export default function TextContainer() {
     const [queryStack, setQueryStack] = useState([]);
     const [seeRecentQueries, setSeeRecentQueries] = useState(false);
     const [stackId, setStackId] = useState('');
+    const [querySaved, setQuerySaved] = useState(true);
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
-
 
     useEffect(()=>{
         axios.get(`${serverEndpoint}/text-generator/get-recentqueries-stack`)
@@ -51,6 +51,7 @@ export default function TextContainer() {
         try {
             const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model, messages: generatedResponseStack});
             setgeneratedResponseStack([...generatedResponseStack, { 'question': prompt, 'answer': response.data.items.content }]);
+            setQuerySaved(false);
         } catch (err) {
             setError(`Failed to generate response. Please try again, ${err}`);
         } finally {
@@ -60,7 +61,7 @@ export default function TextContainer() {
     return (
         !seeRecentQueries ?
         <ContentPanel formHandler={formSubmitHandler} height='100vh' width='50%' bottom='90%' placeholder='Type your query here...' loading={loading}>
-            <Queries error={error} generatedResponseStack={generatedResponseStack} navigatorHandler={()=>setSeeRecentQueries(true)} initialStackId={stackId}/>
+            <Queries error={error} generatedResponseStack={generatedResponseStack} navigatorHandler={()=>setSeeRecentQueries(true)} initialStackId={stackId} querySaved={querySaved} saveQuerySetter={setQuerySaved} queryStackSetter={setQueryStack}/>
         </ContentPanel>
         :
         <RecentQueries queryStack={queryStack} navigatorHandler={navigatorHandler} continueQueryHandler={continueQueryHandler}/>
