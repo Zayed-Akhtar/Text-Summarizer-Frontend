@@ -17,9 +17,7 @@ export default function ImageContainer() {
   const [recentImagesError, setRecentImagesError] = useState('');
   
 
-  useEffect(() => {
-    console.log('fetch images useeffect is called');
-    
+  useEffect(() => {    
     axios.get(`${serverEndpoint}/image-generator/get-images`)
       .then(res => setImages(res.data.items)
       )

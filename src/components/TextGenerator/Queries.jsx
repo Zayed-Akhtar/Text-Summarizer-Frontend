@@ -12,9 +12,7 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
     const [errorMessage, setErrormessage] = useState('');
     //updates stack id when new queries set is saved to db and db return a stack id
     const [stackId, setStackId] = useState(initialStackId);
-    const [showToast, setShowToast] = useState(false)
-    console.log('reloaded');
-    
+    const [showToast, setShowToast] = useState(false);    
     
     useEffect(()=>{
         setStackId(initialStackId)

@@ -14,8 +14,7 @@ export default function TextContainer() {
     const [querySaved, setQuerySaved] = useState(true);
     const [model, setModel] = useState('sonar');
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
-    console.log('reloaded');
-    
+        
     useEffect(() => {
         axios.get(`${serverEndpoint}/text-generator/get-recentqueries-stack`)
             .then((res) => {
