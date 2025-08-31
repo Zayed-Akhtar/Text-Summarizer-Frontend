@@ -3,9 +3,9 @@ import ShinyText from '../../blocks/TextAnimations/ShinyText/ShinyText';
 
 export default function ShinyButton({text='sample button', clickHandler, width='fit-content', className}) {
     return(
-    <button onClick={clickHandler} className={className} style={{backgroundColor:'transparent', border:'1px solid grey', borderRadius:'10px', width}}>
+    <button type='button' onClick={clickHandler} className={`shiny-button ${className}`} style={{width, height:'auto'}}>
         <ShinyText 
-        text={`${text}`} 
+        text={text} 
         speed={3} 
         className='custom-class' 
         />

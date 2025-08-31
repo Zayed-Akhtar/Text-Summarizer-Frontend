@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import './App.css'
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import ImgGenerator from './components/ImageGenerator/ImgGenerator';
 import { Outlet } from 'react-router-dom';
 
 

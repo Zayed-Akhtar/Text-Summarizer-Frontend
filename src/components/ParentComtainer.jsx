@@ -3,7 +3,7 @@ import DotGrid from '../blocks/Backgrounds/DotGrid/DotGrid'
 
 export default function ParentComtainer({children}) {
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div style={{ width: '81.58%', height: '100vh' }}>
         <div style={{ width: '100%', height: '100%', position: 'relative', backgroundColor: 'black', zIndex: '-12' }}>
             <DotGrid
             dotSize={5}

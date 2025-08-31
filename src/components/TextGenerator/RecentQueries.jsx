@@ -6,6 +6,8 @@ import ShinyButton from '../Buttons/ShinyButton';
 import { getCurrentDate } from '../../helpers/dateFormater';
 
 export default function RecentQueries({navigatorHandler, continueQueryHandler, queryStack}) {    
+    console.log('reloaded');
+    
     return (
         <ContentPanel width='60%' height='80%' bottom='85%'>
             <div className='scrollable-container'>

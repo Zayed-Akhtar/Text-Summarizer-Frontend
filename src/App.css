@@ -138,3 +138,10 @@ justify-content:space-between
 .toast-message.hide{
   opacity: 0;
 }
+
+/* buttons */
+.shiny-button{
+  background-color:transparent;
+  border:1px solid grey;
+  border-radius: 10px
+}

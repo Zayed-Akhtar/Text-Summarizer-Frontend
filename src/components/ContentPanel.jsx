@@ -3,6 +3,8 @@ import { FaTelegramPlane } from "react-icons/fa";
 
 
 export default function ContentPanel({ children, formHandler, loading = false, width=500, height='60%', bottom='80%', placeholder='Generate response' }) {
+    console.log('reloaded');
+    
     const promptRef = useRef('');
     
     return (
