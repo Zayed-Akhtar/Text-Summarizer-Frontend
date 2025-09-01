@@ -64,6 +64,6 @@ export default function TextContainer() {
                 <Queries error={error} modelSetter={setModel} generatedResponseStack={generatedResponseStack} navigatorHandler={() => setSeeRecentQueries(true)} initialStackId={stackId} querySaved={querySaved} saveQuerySetter={setQuerySaved} queryStackSetter={setQueryStack} newQueryHandler={navigatorHandler}/>
             </ContentPanel>
             :
-            <RecentQueries queryStack={queryStack} navigatorHandler={navigatorHandler} continueQueryHandler={continueQueryHandler} />
+            <RecentQueries seeRecentQueriesSetter={setSeeRecentQueries} queryStack={queryStack} navigatorHandler={navigatorHandler} continueQueryHandler={continueQueryHandler} />
     )
 }

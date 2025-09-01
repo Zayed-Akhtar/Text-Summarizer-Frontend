@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NavigatorButton from '../Buttons/NavigatorButton'
 import SpotlightCard from '../../blocks/Components/SpotlightCard/SpotlightCard';
 import ContentPanel from '../ContentPanel'
 import ShinyButton from '../Buttons/ShinyButton';
 import { getCurrentDate } from '../../helpers/dateFormater';
+import { MdArrowBackIos } from "react-icons/md";
 
-export default function RecentQueries({navigatorHandler, continueQueryHandler, queryStack}) {        
+export default function RecentQueries({navigatorHandler, continueQueryHandler, queryStack, seeRecentQueriesSetter}) {   
     return (
         <ContentPanel width='60%' height='80%' bottom='85%'>
+            <NavigatorButton className='back-button' clickHandler={()=>seeRecentQueriesSetter(false)} title='back to home'>
+                <MdArrowBackIos style={{fontSize:'1.2rem'}}/>
+            </NavigatorButton>
             <div className='scrollable-container'>
                 {queryStack &&
                     queryStack.map((stack)=>{

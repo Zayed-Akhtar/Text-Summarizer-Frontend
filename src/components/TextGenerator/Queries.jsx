@@ -12,16 +12,17 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
     const [errorMessage, setErrormessage] = useState('');
     //updates stack id when new queries set is saved to db and db return a stack id
     const [stackId, setStackId] = useState(initialStackId);
-    const [showToast, setShowToast] = useState(false);    
+    const [showToast, setShowToast] = useState(false);
+    const [errorToast, setErrorToast] = useState(false);    
     
     useEffect(()=>{
         setStackId(initialStackId)
     }, [initialStackId]);
 
-    const handleshowToast = ()=>{
-        setShowToast(true);
+    const handleshowToast = (toastFunc)=>{
+        toastFunc(true);
         setTimeout(() => {
-            setShowToast(false)
+            toastFunc(false)
         }, 3000);
     }
 
@@ -31,6 +32,10 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
 
 
     const handleSaveQueries = ()=>{
+        if(!generatedResponseStack.length){
+            handleshowToast(setErrorToast);
+            return
+        }
         axios.post(`${serverEndpoint}/text-generator/save-quries`, {queries:generatedResponseStack, stackId})
         .then((res)=>{
             if(res.data.success){
@@ -43,7 +48,7 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
                        return prevStack.map((stack)=>stack._id === res.data.items._id ? res.data.items : stack);
                     }
                 });
-                handleshowToast();
+                handleshowToast(setShowToast);
             }else{
                 console.log(res.data.message);
             }
@@ -80,6 +85,7 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
             </div>
         </div>
         <Toast message='saved successfully !!' show={showToast}/>
+        <Toast message='no queries to save please add one !!' backgroundcolor='red' show={errorToast}/>
     </>
 
   )

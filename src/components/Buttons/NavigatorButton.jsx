@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default function NavigatorButton({children, clickHandler}) {
+export default function NavigatorButton({children, clickHandler, className, title}) {
   return (
-    <button className='navigator-button btn btn-outline-primary' onClick={clickHandler}>{children}</button>
+    <button className={`navigator-button btn btn-outline-primary ${className}`} title={title} onClick={clickHandler}>{children}</button>
   )
 }
