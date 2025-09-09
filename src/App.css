@@ -150,3 +150,50 @@ justify-content:space-between
   margin-top: 0%;
   margin-bottom: 1%;
 }
+
+/* texts */
+.typing-text{
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
+
+.typing-cursor, .typing-text{
+  font-size: 4rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* home */
+.home-controls{
+  display: flex;
+  gap: 10%;
+  width: 50%;
+  position: absolute;
+  top: 60%;
+  left: 30%;
+  height: 12%;
+}
+
+.control-button{
+  width: 38%;
+  border-radius: 30px !important;
+  height: 60%;
+}
+
+/* .control-1:hover{
+  background-color: lightgray;
+} */
+
+.control-3{
+  background-color: transparent; 
+  font-weight: 600;
+  color: darkgray;
+  border: 1px solid rgb(96, 93, 93);
+}
+
+.control-3:hover{
+  background-color: lightgray;
+  opacity: 0.5;
+  color: black;
+}

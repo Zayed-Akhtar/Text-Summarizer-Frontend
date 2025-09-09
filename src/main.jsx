@@ -4,14 +4,16 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ImgGenerator from './components/ImageGenerator/ImgGenerator.jsx';
 import TxtGenerator from './components/TextGenerator/TxtGenerator.jsx';
+import Home from './components/HomePage/Home.jsx';
 
 const routers = createBrowserRouter([
 {
   path:"/",
   element: <App/>,
   children:[
-    {path:"/", element: <ImgGenerator/>},
-    {path:"/text-generator", element:<TxtGenerator/>}
+    {path:"/", element: <Home/>},
+    {path:"/text-generator", element:<TxtGenerator/>},
+    {path:"/image-generator", element:<ImgGenerator/>}
   ]
 }
 ]);

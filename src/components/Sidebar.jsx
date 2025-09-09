@@ -1,11 +1,18 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
-  const sideBarElements = [{name:'Home', link:"/"}, {name:'Dashboard', link:"/dashboard"}, {name:'Text Query', link:"/text-generator"}, {name:'Text to Image', link:"/"}];
-  const [activezElement, setActiveElement] = useState(3);
+  const sideBarElements = [{name:'Home', link:"/"}, {name:'Text Query', link:"/text-generator"}, {name:'Text to Image', link:"/image-generator"}];
+  const location = useLocation();
+  const [activezElement, setActiveElement] = useState();
 
-
+  useEffect(()=>{
+    sideBarElements.forEach((ele, i)=>{
+      if(location.pathname === ele.link){
+        setActiveElement(i);
+      }
+    });
+  }, [location]);
   return (
     <div className="d-flex flex-column flex-shrink-0 p-3" style={{ width: "280px", height: "100vh", backgroundColor: 'black' }}> <Link to="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none"> <svg className="bi pe-none me-2" width="40" height="32" aria-hidden="true"><use xlinkHref="#bootstrap"></use></svg> <span className="fs-4">Sidebar</span> </Link> <hr /> <ul className="nav nav-pills flex-column mb-auto">
       {

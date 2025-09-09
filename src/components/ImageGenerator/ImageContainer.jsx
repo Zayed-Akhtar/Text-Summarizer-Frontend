@@ -48,7 +48,7 @@ export default function ImageContainer() {
   };
   return (
         !seeAllImages ?
-            <ContentPanel formHandler={handleFormSubmit} loading={loading} height='65%' placeholder='Describe the image you want..'>
+            <ContentPanel formHandler={handleFormSubmit} loading={loading} height='100vh' width='50%' bottom='90%' placeholder='Describe the image you want..'>
               <ImageContent imageUrl={imageUrl} error={error} createdDate={getCurrentDate()}/>
               <NavigatorButton clickHandler={()=>setSeeAllImages(true)}><FaRegImages style={{marginRight:'4px', fontSize:'1rem'}} />Recently Genrated</NavigatorButton>
             </ContentPanel>
