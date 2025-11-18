@@ -3,6 +3,8 @@ import ContentPanel from '../ContentPanel'
 import axios from 'axios';
 import RecentQueries from './RecentQueries';
 import Queries from './Queries';
+import { useNavigate } from 'react-router-dom';
+import { getSessionToken, getUserInfo } from '../../helpers/userSessionTokens';
 
 export default function TextContainer() {
     const [error, setError] = useState('')
@@ -13,10 +15,12 @@ export default function TextContainer() {
     const [stackId, setStackId] = useState('');
     const [querySaved, setQuerySaved] = useState(true);
     const [model, setModel] = useState('sonar');
+    const navigate = useNavigate();
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
-        
+    const loginToken = getSessionToken();
+    const userInfo = getUserInfo();    
     useEffect(() => {
-        axios.get(`${serverEndpoint}/text-generator/get-recentqueries-stack`)
+        axios.get(`${serverEndpoint}/text-generator/get-recentqueries-stack`, {params: {userInfo}})
             .then((res) => {
                 if (res.data.success) {
                     setQueryStack(res.data.items);
@@ -49,11 +53,21 @@ export default function TextContainer() {
         setLoading(true);
         promptRef.current.value = '';
         try {
-            const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model, messages: generatedResponseStack });
+            console.log("query stack:",  generatedResponseStack);
+                        
+            const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model, messages: generatedResponseStack },
+                    {headers: {Authorization: `${loginToken}`}}
+            );
             setgeneratedResponseStack([...generatedResponseStack, { 'question': prompt, 'answer': response.data.items.content }]);
             setQuerySaved(false);
         } catch (err) {
-            setError(`Failed to generate response. Please try again, ${err}`);
+            if(err.response?.status === 401 || err.response?.status === 403){
+                localStorage.removeItem("login_token")
+                navigate('/authentication/login', { state: { from: '/text-generator' } });
+            }
+            else{
+                setError(`Failed to generate response. Please try again, ${err}`);
+            }
         } finally {
             setLoading(false);
         }

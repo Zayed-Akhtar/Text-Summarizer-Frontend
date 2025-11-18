@@ -5,6 +5,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import ImgGenerator from './components/ImageGenerator/ImgGenerator.jsx';
 import TxtGenerator from './components/TextGenerator/TxtGenerator.jsx';
 import Home from './components/HomePage/Home.jsx';
+import AuthPage from './components/Authentication/AuthPage.jsx';
+import Login from './components/Authentication/Login.jsx';
+import Register from './components/Authentication/Register.jsx';
 
 const routers = createBrowserRouter([
 {
@@ -14,6 +17,13 @@ const routers = createBrowserRouter([
     {path:"/", element: <Home/>},
     {path:"/text-generator", element:<TxtGenerator/>},
     {path:"/image-generator", element:<ImgGenerator/>}
+  ]
+},
+{path:"/authentication",
+  element:<AuthPage/>,
+  children:[
+    {path:"login", element:<Login/>},
+    {path:"register", element:<Register/>}
   ]
 }
 ]);
