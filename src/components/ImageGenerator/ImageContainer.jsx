@@ -66,7 +66,7 @@ export default function ImageContainer() {
         setError('');
       }
     } catch (err) {
-      setError(`error while fetching images ${err}`);
+      errorResposne(err, setError, `Error generating image: ${err}`)
     } finally {
       setLoading(false);
     }

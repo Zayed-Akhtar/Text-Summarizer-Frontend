@@ -16,7 +16,7 @@ export default function RecentImages({images, navigatorHandler, error=''}) {
                         console.log('image data: ', image_data);        
                        return <ImageContent key={i} imageUrl={image_data[0]} createdDate={formatDate(image_data[1])}></ImageContent>
                     } )
-                    : <h2 style={{color:'grey'}}>Generate an Image..</h2>
+                    : !error && <h2 style={{color:'grey'}}>Generate an Image..</h2>
                 }
             </div>
             <NavigatorButton clickHandler={navigatorHandler}><LuImagePlus style={{marginRight:'4px', fontSize:'1rem'}} />Generate image</NavigatorButton>
