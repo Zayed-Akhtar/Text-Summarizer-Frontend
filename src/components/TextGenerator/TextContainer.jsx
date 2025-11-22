@@ -4,7 +4,7 @@ import axios from 'axios';
 import RecentQueries from './RecentQueries';
 import Queries from './Queries';
 import { useNavigate } from 'react-router-dom';
-import { getSessionToken, getUserInfo } from '../../helpers/userSessionTokens';
+import { getSessionToken, getUserInfo, removeLoginToken, removeUserInfo } from '../../helpers/userSessionTokens';
 
 export default function TextContainer() {
     const [error, setError] = useState('')
@@ -52,9 +52,7 @@ export default function TextContainer() {
         }
         setLoading(true);
         promptRef.current.value = '';
-        try {
-            console.log("query stack:",  generatedResponseStack);
-                        
+        try {                        
             const response = await axios.post(`${serverEndpoint}/text-generator/gen-text`, { prompt, model, messages: generatedResponseStack },
                     {headers: {Authorization: `${loginToken}`}}
             );
@@ -62,7 +60,8 @@ export default function TextContainer() {
             setQuerySaved(false);
         } catch (err) {
             if(err.response?.status === 401 || err.response?.status === 403){
-                localStorage.removeItem("login_token")
+                removeUserInfo();
+                removeLoginToken();
                 navigate('/authentication/login', { state: { from: '/text-generator' } });
             }
             else{

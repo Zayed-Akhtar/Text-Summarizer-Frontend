@@ -3,10 +3,11 @@ import axios from 'axios';
 import ImageContent from './ImageContent';
 import ContentPanel from '../ContentPanel';
 import { FaRegImages } from "react-icons/fa";
-import { getCurrentDate } from '../../helpers/dateFormater';
+import { getCurrentDate, rawCurrentDate } from '../../helpers/dateFormater';
 import NavigatorButton from '../Buttons/NavigatorButton';
 import RecentImages from './RecentImages';
-import { getSessionToken, getUserInfo } from '../../helpers/userSessionTokens';
+import { getSessionToken, getUserInfo, removeLoginToken, removeUserInfo } from '../../helpers/userSessionTokens';
+import { useNavigate } from 'react-router-dom';
 
 export default function ImageContainer() {
   const [imageUrl, setImageUrl] = useState('');
@@ -18,20 +19,27 @@ export default function ImageContainer() {
   const [recentImagesError, setRecentImagesError] = useState('');
   const userInfo = getUserInfo();
   const loginToken = getSessionToken();
+  const navigate = useNavigate();
 
   const errorResposne = (err, errorSetter, errorMessage)=>{
      if(err.response?.status === 401 || err.response?.status === 403)
             {
-              localStorage.removeItem("login_token");
-                navigate('/login', { state: { from: '/image-generator' } });
+                removeUserInfo();
+                removeLoginToken();
+                navigate('/authentication/login', { state: { from: '/image-generator' } });
             }
             else{
                 errorSetter(errorMessage);
             }
   }
   useEffect(() => {    
-    axios.get(`${serverEndpoint}/image-generator/get-images`, {params: {userInfo}})
-      .then(res => setImages(res.data.items)
+    axios.get(`${serverEndpoint}/image-generator/get-images`, {params: {userInfo}, headers: {Authorization: `${loginToken}`}})
+      .then(res =>{
+        if(error.length > 0){
+          setError('')
+        }
+        setImages(res.data.items);
+      } 
       )
       .catch((err) => {
         errorResposne(err, setRecentImagesError, `Error getting images, ${err}`)
@@ -53,9 +61,12 @@ export default function ImageContainer() {
     try {
       const response = await axios.post(`${serverEndpoint}/image-generator/gen-image`, { prompt, userInfo }, {headers: {Authorization: `${loginToken}`}});      
       setImageUrl(response.data.image_url);
-      setImages([...images, [response.data.image_url, getCurrentDate]])
+      setImages([...images, [response.data.image_url, rawCurrentDate()]])
+      if(error.length > 0){
+        setError('');
+      }
     } catch (err) {
-      errorResposne(err, setError, `Failed to generate response due to ${err}, Please try again`)
+      setError(`error while fetching images ${err}`);
     } finally {
       setLoading(false);
     }
@@ -64,7 +75,7 @@ export default function ImageContainer() {
         !seeAllImages ?
             <ContentPanel formHandler={handleFormSubmit} loading={loading} height='100vh' width='50%' bottom='90%' placeholder='Describe the image you want..'>
               <ImageContent imageUrl={imageUrl} error={error} createdDate={getCurrentDate()}/>
-              {getSessionToken() && <NavigatorButton clickHandler={()=>setSeeAllImages(true)}><FaRegImages style={{marginRight:'4px', fontSize:'1rem'}} />Recently Genrated</NavigatorButton>}
+              {getSessionToken() && <NavigatorButton clickHandler={()=>setSeeAllImages(true)}><FaRegImages style={{marginRight:'4px', fontSize:'1rem'}} />Recently Generated</NavigatorButton>}
             </ContentPanel>
             :
           <RecentImages images={images} navigatorHandler={()=>setSeeAllImages(false)} error={recentImagesError}/>

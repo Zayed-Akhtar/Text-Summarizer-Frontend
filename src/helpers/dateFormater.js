@@ -14,3 +14,8 @@ export const getCurrentDate = ()=>{
       const now = new Date();
       return formatDate(now.toString());
 }
+
+export const rawCurrentDate = ()=>{
+    const now = new Date();
+    return now.toString();
+}

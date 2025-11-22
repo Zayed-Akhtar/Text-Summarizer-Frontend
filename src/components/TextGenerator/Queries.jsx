@@ -6,7 +6,7 @@ import Toast from '../Toasts/toast';
 import { BiAddToQueue } from "react-icons/bi";
 import SuccessButton from '../Buttons/SuccessButton';
 import DropUpButton from '../Buttons/DropUpButton';
-import { getSessionToken, getUserInfo } from '../../helpers/userSessionTokens';
+import { getSessionToken, getUserInfo, removeLoginToken, removeUserInfo } from '../../helpers/userSessionTokens';
 
 export default function Queries({error, modelSetter, generatedResponseStack, navigatorHandler, initialStackId, querySaved, saveQuerySetter, queryStackSetter, newQueryHandler}) {
     const serverEndpoint = import.meta.env.VITE_SERVER_ENDPOINT;
@@ -16,6 +16,8 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
     const [showToast, setShowToast] = useState(false);
     const [errorToast, setErrorToast] = useState(false);    
     const userInfo = getUserInfo();
+    const loginToken = getSessionToken();
+    console.log('stack id from Queries', stackId);
     
     useEffect(()=>{
         setStackId(initialStackId)
@@ -40,7 +42,8 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
         }
         console.log('user details', userInfo);
         
-        axios.post(`${serverEndpoint}/text-generator/save-quries`, {queries:generatedResponseStack, stackId, userInfo})
+        axios.post(`${serverEndpoint}/text-generator/save-quries`, {queries:generatedResponseStack, stackId, userInfo},
+                    {headers: {Authorization: `${loginToken}`}})
         .then((res)=>{
             if(res.data.success){
                 saveQuerySetter(true);
@@ -59,7 +62,8 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
         })
         .catch((err)=> {
             if(err.response?.status === 401 || err.response?.status === 403){
-                localStorage.removeItem("login_token")
+                removeUserInfo();
+                removeLoginToken();
                 navigate('/authentication/login', { state: { from: '/text-generator' } });
             }
             else{
@@ -69,7 +73,8 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
     }
 
     const handleStartNewQuery = (e)=>{
-        handleSaveQueries();
+        console.log('start new query clicked');
+        // handleSaveQueries();
         newQueryHandler(e);
     }
   return (
@@ -92,7 +97,7 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
                 <DropUpButton clickHandler={handleModelSelection} items={['sonar', 'sonar-pro', 'sonar-deep-research', 'sonar-reasoning', 'sonar-reasoning-pro']}/>
             </div>
             <div style={{display:'flex', justifyContent:'space-between', width:`${querySaved ? 'auto': '17%'}`}}>
-                <SuccessButton title='Add new Query' onClickHandler={handleStartNewQuery}><BiAddToQueue /></SuccessButton>
+                <SuccessButton title='Add new Query' onClickHandler={(e)=>handleStartNewQuery(e)}><BiAddToQueue /></SuccessButton>
                 <ShinyButton className={`save-queries ${querySaved? 'hide' : ''}`} text='Save' clickHandler={handleSaveQueries}/>
             </div>
         </div>

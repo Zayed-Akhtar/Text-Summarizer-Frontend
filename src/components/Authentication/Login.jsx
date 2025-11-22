@@ -38,7 +38,7 @@ export default function Login() {
         <input type="password" ref={passwordRef} id="password" name="password" placeholder="enter your password" required/>
       </div>
       <span>Didn't have an account ? <Link to={"/authentication/register"}>Signup</Link></span>
-      {error.length && <span style={{color:'red', margin:'auto', display:'block'}}>{error}</span>}
+      {error && <span style={{color:'red', margin:'auto', display:'block'}}>{error}</span>}
       <ShinyButton text="login" type="submit" width="80%" className='login-button' />
     </BaseForm>
   )

@@ -63,7 +63,7 @@ export default function Register() {
         <input type="password" ref={repeatPasswordRef} id="repeatpassword" name="repeatpassword" placeholder="re-enter your password" required/>
       </div>
       <span>Already have an account ? <Link to={"/authentication/login"}>Login</Link></span>
-      {error.length && <span style={{color:'red', margin:'auto', display:'block'}}>{error}</span>}
+      {error && <span style={{color:'red', margin:'auto', display:'block'}}>{error}</span>}
       <ShinyButton text="Register" type="submit" width="80%" className='register-button' />
     </BaseForm>
   )
