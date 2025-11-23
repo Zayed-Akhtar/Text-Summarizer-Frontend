@@ -65,6 +65,8 @@ export default function TextContainer() {
                 navigate('/authentication/login', { state: { from: '/text-generator' } });
             }
             else{
+                console.log('this is error from text generator: ', err);
+                
                 setError(`Failed to generate response. Please try again, ${err}`);
             }
         } finally {
