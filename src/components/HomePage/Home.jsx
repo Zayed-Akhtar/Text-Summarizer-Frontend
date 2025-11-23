@@ -6,7 +6,7 @@ import Controls from './Controls'
 export default function Home() {
   return (
     <ParentComtainer>
-        <TextType className='typing-text' cursorClassName='typing-cursor' text={["Welcome to Re-imagine", "your most trusted AI assigtant", "Happy to help you!"]}/>
+        <TextType className='typing-text' cursorClassName='typing-cursor' text={["Welcome to Re-imagine", "your most trusted AI assistant", "Happy to help you!"]}/>
         <Controls/>
     </ParentComtainer>
   )
