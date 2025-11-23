@@ -3,7 +3,7 @@ import NavigatorButton from '../Buttons/NavigatorButton'
 import SpotlightCard from '../../blocks/Components/SpotlightCard/SpotlightCard';
 import ContentPanel from '../ContentPanel'
 import ShinyButton from '../Buttons/ShinyButton';
-import { formatDate, getCurrentDate } from '../../helpers/dateFormater';
+import { formatDate } from '../../helpers/dateFormater';
 import { MdArrowBackIos } from "react-icons/md";
 
 export default function RecentQueries({navigatorHandler, continueQueryHandler, queryStack, seeRecentQueriesSetter}) {   

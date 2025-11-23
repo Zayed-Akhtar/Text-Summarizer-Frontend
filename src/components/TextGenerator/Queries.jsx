@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import NavigatorButton from '../Buttons/NavigatorButton'
 import ShinyButton from '../Buttons/ShinyButton'
 import axios from 'axios'
-import Toast from '../Toasts/toast';
+import Toast from '../Toasts/Toast';
 import { BiAddToQueue } from "react-icons/bi";
 import SuccessButton from '../Buttons/SuccessButton';
 import DropUpButton from '../Buttons/DropUpButton';
