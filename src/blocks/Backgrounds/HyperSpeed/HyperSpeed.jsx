@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { BloomEffect, EffectComposer, EffectPass, RenderPass, SMAAEffect, SMAAPreset } from 'postprocessing';
 
-import './Hyperspeed.css';
+import './HyperSpeed.css';
 
 const Hyperspeed = ({
   effectOptions = {
