@@ -13,7 +13,6 @@ export default function RecentImages({images, navigatorHandler, error=''}) {
                 {error &&  <p style={{ color: 'red' }}>{error}</p>}
                 {images.length ?
                     images.map((image_data, i) =>{
-                        console.log('image data: ', image_data);        
                        return <ImageContent key={i} imageUrl={image_data[0]} createdDate={formatDate(image_data[1])}></ImageContent>
                     } )
                     : !error && <h2 style={{color:'grey'}}>Generate an Image..</h2>

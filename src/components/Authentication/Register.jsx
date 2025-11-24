@@ -34,9 +34,7 @@ export default function Register() {
           localStorage.setItem("user", JSON.stringify(res.data.user));
           navigate("/");
         }
-      }).catch((err) => {
-        console.log('this is error in regigter page', err);
-        
+      }).catch((err) => {        
         setError(err.response?.data?.message || "login failed please try again")
       })
   }

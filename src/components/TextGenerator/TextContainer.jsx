@@ -64,9 +64,7 @@ export default function TextContainer() {
                 removeLoginToken();
                 navigate('/authentication/login', { state: { from: '/text-generator' } });
             }
-            else{
-                console.log('this is error from text generator: ', err);
-                
+            else{                
                 setError(`Failed to generate response. Please try again, ${err}`);
             }
         } finally {

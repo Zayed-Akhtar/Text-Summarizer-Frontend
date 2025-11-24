@@ -21,9 +21,7 @@ export default function Login() {
         localStorage.setItem("user", JSON.stringify(res.data.user));
         navigate("/");
       }
-    }).catch((err)=>{
-      console.log('reached error', err);
-      
+    }).catch((err)=>{      
       setError(err.response?.data?.message || "login failed please try again")
     })
   }

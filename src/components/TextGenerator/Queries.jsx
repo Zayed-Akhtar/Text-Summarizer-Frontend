@@ -16,9 +16,7 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
     const [showToast, setShowToast] = useState(false);
     const [errorToast, setErrorToast] = useState(false);    
     const userInfo = getUserInfo();
-    const loginToken = getSessionToken();
-    console.log('stack id from Queries', stackId);
-    
+    const loginToken = getSessionToken();    
     useEffect(()=>{
         setStackId(initialStackId)
     }, [initialStackId]);
@@ -39,9 +37,7 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
         if(!generatedResponseStack.length){
             handleshowToast(setErrorToast);
             return
-        }
-        console.log('user details', userInfo);
-        
+        }        
         axios.post(`${serverEndpoint}/text-generator/save-quries`, {queries:generatedResponseStack, stackId, userInfo},
                     {headers: {Authorization: `${loginToken}`}})
         .then((res)=>{
@@ -73,7 +69,6 @@ export default function Queries({error, modelSetter, generatedResponseStack, nav
     }
 
     const handleStartNewQuery = (e)=>{
-        console.log('start new query clicked');
         // handleSaveQueries();
         newQueryHandler(e);
     }
